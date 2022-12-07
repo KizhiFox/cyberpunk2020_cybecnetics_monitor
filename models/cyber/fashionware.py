@@ -1,6 +1,6 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
-from models.cybernetics_base import Operations, Types, NEYRALWARE_PROCESSOR, CyberBase
+from models.cyber.cybernetics_base import Operations, Types, CyberBase
 
 
 @dataclass()
