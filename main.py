@@ -1,6 +1,7 @@
 import npyscreen
 
-from views import MainPage
+import views
+from views.view_names import ViewNames
 
 
 class TestApp(npyscreen.NPSApp):
@@ -33,7 +34,8 @@ class TestApp(npyscreen.NPSApp):
 
 class CyberController(npyscreen.NPSAppManaged):
     def onStart(self):
-        self.addForm('MAIN', MainPage)
+        self.addForm(ViewNames.main, views.MainPage)
+        self.addForm(ViewNames.settings, views.SettingsPage)
 
 
 if __name__ == '__main__':
@@ -42,4 +44,4 @@ if __name__ == '__main__':
         my_app.run()
     except KeyboardInterrupt:
         pass
-    print('🧡  Bye! 🧡')
+    print('🧡 Bye! 🧡')

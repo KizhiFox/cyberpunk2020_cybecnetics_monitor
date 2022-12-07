@@ -1,46 +1,46 @@
 import npyscreen
 
-from assets import ASCIIimages
+from assets import ascii_arts
+from views.view_names import ViewNames
 
 
 class MainPage(npyscreen.FormBaseNew):
     def create(self):
-        self.name = '#CyberAhri2020 CyberController™ by News24'
+        self.name = 'CyberController™ by News24'
         self.lines = 24
         self.columns = 80
 
         self.add(npyscreen.Textfield, value=' Добрый вечер, Ари!', editable=False)
-
+        self.add(npyscreen.Textfield, value='', editable=False)
+        self.add(npyscreen.ButtonPress, name='Жизненные параметры')
         self.add(npyscreen.Textfield, value='', editable=False)
         self.add(npyscreen.ButtonPress, name='Подключенные импланты')
         self.add(npyscreen.ButtonPress, name='Подключенные чипы')
         self.add(npyscreen.ButtonPress, name='Сводка влияния на статистику')
+        self.add(npyscreen.ButtonPress, name='Статус интерфейсов')
         self.add(npyscreen.Textfield, value='', editable=False)
-        self.add(npyscreen.ButtonPress, name='Выход', when_pressed_function=self.exitButtonPressed)
+        self.add(npyscreen.ButtonPress, name='Настройки', when_pressed_function=self.setting_button_pressed)
         self.add(npyscreen.Textfield, value='', editable=False)
-
-        self.add(
-            npyscreen.BoxTitle,
-            values=['Эмпатия: 8/8', 'Показатель человечности: -18.5'], editable=False,
-            max_height=4, max_width=35,
-            name='Человечность', footer='Возможно падение EMP до 0', color='CAUTION'
-        )
+        self.add(npyscreen.ButtonPress, name='Выход', when_pressed_function=self.exit_button_pressed)
         self.add(npyscreen.Textfield, value='', editable=False)
 
         self.add(
             npyscreen.BoxTitle,
-            values=['🟢 Neuralware processor', '🟢 Chipware Socket', '🟢 Inteface plugs',
-                    '🟢 Cybermodem link', '🟢 Phone Splice'],
-            max_height=7, max_width=35,
-            name='Статус интерфейсов', color='DEFAULT'
+            values=['Эмпатия: 8/8', 'Показатель человечности: -18.5', '', 'Возможно падение EMP до 0'],
+            name='Человечность', color='CAUTION',
+            max_height=6, max_width=40, editable=False
         )
+        self.add(npyscreen.Textfield, value='', editable=False)
 
         self.add(
-            npyscreen.BoxTitle, values=ASCIIimages.Foxy.image, editable=False,
-            relx=48, rely=3, max_height=ASCIIimages.Foxy.height, max_width=ASCIIimages.Foxy.width
+            npyscreen.BoxTitle, values=ascii_arts.foxy.image, editable=False,
+            relx=48, rely=4, max_height=ascii_arts.foxy.height, max_width=ascii_arts.foxy.width
         )
 
-    def exitButtonPressed(self):
+    def setting_button_pressed(self):
+        self.parentApp.switchForm(ViewNames.settings)
+
+    def exit_button_pressed(self):
         res = npyscreen.notify_ok_cancel('Выйти?', wrap=True, editw=1)
         if res:
             self.exit()
