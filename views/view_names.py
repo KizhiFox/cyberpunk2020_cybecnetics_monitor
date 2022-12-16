@@ -5,3 +5,4 @@ from dataclasses import dataclass
 class ViewNames:
     main = 'MAIN'
     settings = 'Settings'
+    cybernetics = 'Cybernetics'

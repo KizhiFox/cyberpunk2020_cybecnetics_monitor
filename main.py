@@ -36,6 +36,7 @@ class CyberController(npyscreen.NPSAppManaged):
     def onStart(self):
         self.addForm(ViewNames.main, views.MainPage)
         self.addForm(ViewNames.settings, views.SettingsPage)
+        self.addForm(ViewNames.cybernetics, views.CyberneticsPage)
 
 
 if __name__ == '__main__':

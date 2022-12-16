@@ -33,8 +33,8 @@ class User:
     def load_cybernetics(self, cyber_dict) -> list[CyberBase]:
         return list()
 
-    def export_cybernetics(self) -> dict:
-        return dict()
+    def export_cybernetics(self) -> list:
+        return list()
 
     def save_to_file(self):
         with open(self.filename, 'w') as f:

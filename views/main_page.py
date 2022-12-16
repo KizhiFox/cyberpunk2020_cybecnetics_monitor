@@ -34,12 +34,20 @@ class MainPage(npyscreen.FormBaseNew):
         self.add(npyscreen.Textfield, value='', editable=False)
         self.add(npyscreen.ButtonPress, name='Жизненные параметры')
         self.add(npyscreen.Textfield, value='', editable=False)
-        self.add(npyscreen.ButtonPress, name='Подключенные импланты')
+        self.add(
+            npyscreen.ButtonPress,
+            name='Управление кибернетикой',
+            when_pressed_function=lambda: self.parentApp.switchForm(ViewNames.cybernetics)
+        )
         self.add(npyscreen.ButtonPress, name='Подключенные чипы')
         self.add(npyscreen.ButtonPress, name='Сводка влияния на статистику')
         self.add(npyscreen.ButtonPress, name='Статус интерфейсов')
         self.add(npyscreen.Textfield, value='', editable=False)
-        self.add(npyscreen.ButtonPress, name='Настройки', when_pressed_function=self.setting_button_pressed)
+        self.add(
+            npyscreen.ButtonPress,
+            name='Настройки',
+            when_pressed_function=lambda: self.parentApp.switchForm(ViewNames.settings)
+        )
         self.add(npyscreen.Textfield, value='', editable=False)
         self.add(npyscreen.ButtonPress, name='Выход', when_pressed_function=self.exit_button_pressed)
         self.add(npyscreen.Textfield, value='', editable=False)
@@ -76,13 +84,7 @@ class MainPage(npyscreen.FormBaseNew):
             return 'WARNING'
         return 'DEFAULT'
 
-    def setting_button_pressed(self):
-        self.parentApp.switchForm(ViewNames.settings)
-
     def exit_button_pressed(self):
         res = npyscreen.notify_ok_cancel('Выйти?', wrap=True, editw=1)
         if res:
-            self.exit()
-
-    def exit(self, *args, **kwargs):
-        self.parentApp.switchForm(None)
+            self.parentApp.switchForm(None)
