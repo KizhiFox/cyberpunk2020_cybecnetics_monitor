@@ -7,6 +7,7 @@ import npyscreen
 from views.view_names import ViewNames
 from utils.settings import settings
 from models.cyber.cybernetics_base import CyberBase
+from assets import ascii_arts
 
 
 LIST_BASE = 'Base'
@@ -41,7 +42,7 @@ class CyberneticsPage(npyscreen.FormBaseNew):
     def pre_edit_loop(self):
         self.editw = 0
         self.temp_user = copy.deepcopy(settings.user)
-        self.cybernetics.values = self.get_tree()
+        self.cybernetics.values = self.get_tree(self.temp_user.cybernetics)
 
     def create(self):
         self.name = f'{settings.app_name}: КИБЕРНЕТИКА'
@@ -51,7 +52,8 @@ class CyberneticsPage(npyscreen.FormBaseNew):
         self.cybernetics: CyberneticsList = self.add(
             CyberneticsList,
             name='Список кибернетики',
-            max_height=17,
+            max_height=19,
+            max_width=40,
             use_two_lines=True,
             begin_entry_at=2
         )
@@ -59,12 +61,44 @@ class CyberneticsPage(npyscreen.FormBaseNew):
         self.add(
             npyscreen.ButtonPress,
             name='На главную',
-            rely=-4,
+            rely=-3,
             when_pressed_function=lambda: self.parentApp.switchForm(ViewNames.main)
         )
 
-    def get_tree(self) -> list[CyberneticsListEntity]:
-        tree_data = [CyberneticsListEntity(name_in_list='Добавить...', add_to=LIST_BASE)]
+        self.add(
+            npyscreen.BoxTitle, values=ascii_arts.cog.image, editable=False,
+            relx=42, rely=3, max_height=ascii_arts.cog.height, max_width=ascii_arts.cog.width
+        )
+
+    def get_tree(self, cybernetics: list[CyberBase], level=0, add_to=LIST_BASE) -> list[CyberneticsListEntity]:
+        tree_data = []
+
+        for i, implant in enumerate(cybernetics):
+            sockets_counter = ''
+            if implant.has_sockets and implant.max_sockets is not None:
+                if implant.max_sockets != -1:
+                    sockets_used = sum([im.num_sockets_use for im in implant.sockets if im.num_sockets_use is not None])
+                    sockets_counter = f' [{sockets_used}/{implant.max_sockets}]'
+
+            tree_data.append(
+                CyberneticsListEntity(
+                    name_in_list=f'{"│ " * (level - 1)}{"├─" if level else ""}{implant.name}{sockets_counter}',
+                    **{k: implant.__dict__[k] for k in implant.__dict__.keys() if k[0] != '_'}
+                )
+            )
+
+            if implant.has_sockets:
+                if isinstance(implant.sockets, list):
+                    tree_data += self.get_tree(implant.sockets, level + 1, add_to=implant.id)
+                else:
+                    tree_data += self.get_tree([], level + 1, add_to=implant.id)
+
+        if level == 0:
+            add_button_text = 'ПОДКЛЮЧИТЬ...'
+        else:
+            add_button_text = f'{"│ " * (level - 1)}└─ПОДКЛЮЧИТЬ...'
+        tree_data.append(CyberneticsListEntity(name_in_list=add_button_text, add_to=add_to))
+
         return tree_data
 
     def save_button_pressed(self):

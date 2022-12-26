@@ -30,8 +30,20 @@ class User:
     def get_emp(self) -> int:
         return self.emp_current + self.emp_mod
 
-    def load_cybernetics(self, cyber_dict) -> list[CyberBase]:
-        return list()
+    def load_cybernetics(self, cyber_list) -> list[CyberBase]:
+        cybernetics = []
+        for implant_dict in cyber_list:
+            if implant_dict['sockets']:
+                sockets = self.load_cybernetics(implant_dict['sockets'])
+            elif implant_dict['sockets'] is None:
+                sockets = None
+            else:
+                sockets = []
+            del implant_dict['sockets']
+            implant = CyberBase(**implant_dict)
+            implant.sockets = sockets
+            cybernetics.append(implant)
+        return cybernetics
 
     def export_cybernetics(self) -> list:
         return list()

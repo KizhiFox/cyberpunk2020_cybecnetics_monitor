@@ -7,13 +7,12 @@ from models.cyber.cybernetics_base import Operations, Types, CyberBase
 class NeyralwareProcessor(CyberBase):
     name = 'Neyralware Processor'
     code = 'M'
-    description = 'Базовый процессор требуется для всех систем'
+    description = 'Базовый процессор, требуется для всех систем'
     type = Types.NEURALWARE
     operation = Operations.M
     has_sockets = True
     sockets = []
     max_sockets = -1
-    sockets_int_limit = True
     avg_price = '1000'
     avg_hp = '1d6'
 

@@ -3,17 +3,17 @@ from dataclasses import dataclass, field
 from enum import Enum
 
 
-class Operations(Enum):
+class Operations(str, Enum):
     N = 'Незначительная'
     M = 'Малая'
     MA = 'Значительная'
     CR = 'Сложная'
 
 
-class Types(Enum):
+class Types(str, Enum):
     BASE = 'Базовый'
     FASHIONWARE = 'Биомода'
-    NEURALWARE = 'Неуротехника'
+    NEURALWARE = 'Нейротехника'
     CHIPWARE = 'Чиптехника'
     IMPLANTS = 'Импланты'
     BIOWARE = 'Биотехника'
@@ -39,7 +39,6 @@ class CyberBase:
     requires: list | None = None  # list[code] of stuff required for installation
     operation: Operations | None = None  # installation operation difficulty
     has_sockets: bool = False
-    sockets: list | None = None  # list[CyberBase]
     max_sockets: int | None = None  # -1 is infinity
     num_sockets_use: int | None = None  # number of sockets that stuff requires
     is_chip: bool = False
@@ -50,3 +49,4 @@ class CyberBase:
     prise: float | None = None  # real amount of money that have been spent on installation
     hp: float | None = None  # amount of los humanity points
     extra: str | None = None  # some extra stuff: description etc
+    sockets: list | None = None  # list[CyberBase]
