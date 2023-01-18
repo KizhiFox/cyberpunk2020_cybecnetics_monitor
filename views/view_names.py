@@ -6,3 +6,4 @@ class ViewNames:
     main = 'MAIN'
     settings = 'Settings'
     cybernetics = 'Cybernetics'
+    editor = 'Editor'
